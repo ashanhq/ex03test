@@ -1,11 +1,21 @@
 function eulerlist() {
-    // Get values from the input fields
+    // Get user inputs
     const a = parseInt(document.getElementById("a1").value);
     const b = parseInt(document.getElementById("b1").value);
     const lStr = document.getElementById("l").value;
 
-    // Convert the comma-separated list to an array of numbers
-    const l = lStr.split(",").map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+    // Convert input list (comma or space separated) to numbers
+    const l = lStr
+        .split(/[\s,]+/) // split by commas or spaces
+        .map(x => parseInt(x.trim()))
+        .filter(x => !isNaN(x)); // remove invalid entries
+
+    // Validate inputs
+    if (isNaN(a) || isNaN(b) || l.length === 0) {
+        document.getElementById("result").textContent =
+            "⚠️ Please enter valid numbers for A, B, and the list L.";
+        return;
+    }
 
     // Compute sum of multiples of a or b
     let sum = 0;
@@ -15,6 +25,7 @@ function eulerlist() {
         }
     }
 
-    // Display the result
-    alert(`Sum of multiples of ${a} or ${b} in the list: ${sum}`);
+    // Display result
+    document.getElementById("result").textContent =
+        `✅ Sum of multiples of ${a} or ${b} in the list: ${sum}`;
 }
